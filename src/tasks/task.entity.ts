@@ -1,7 +1,7 @@
 import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 import { TaskStatus } from "./task.module";
 
-// Entity or columns that represents the database 
+// Entity or table for the columns that represents the database 
 // for the task management application.
 @Entity()
 export class Task extends BaseEntity{
