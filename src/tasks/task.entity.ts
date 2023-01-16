@@ -1,5 +1,5 @@
 import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from "typeorm";
-import { TaskStatus } from "./task.module";
+import { TaskStatus } from "./task-status.enum"
 
 // Entity or table for the columns that represents the database 
 // for the task management application.
