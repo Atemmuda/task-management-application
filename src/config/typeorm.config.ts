@@ -1,3 +1,4 @@
+import "reflect-metadata"
 import { TypeOrmModuleOptions } from "@nestjs/typeorm";
 
 export const typeOrmConfig: TypeOrmModuleOptions = {
@@ -7,6 +8,7 @@ export const typeOrmConfig: TypeOrmModuleOptions = {
     username: 'postgres',
     password: 'root',
     database: 'taskmanagement',
+    autoLoadEntities: true,
     entities: [__dirname + "/../**/*.entity.ts"],
     synchronize: true // true is not recommended in production
 };
