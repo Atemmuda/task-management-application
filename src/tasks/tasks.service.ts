@@ -1,4 +1,4 @@
-import { createQueryBuilder, Repository } from "typeorm";
+import { Repository } from "typeorm";
 import { Injectable, NotFoundException } from '@nestjs/common';
 
 import { TaskStatus } from './task-status.enum';
