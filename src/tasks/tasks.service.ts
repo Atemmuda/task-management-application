@@ -1,4 +1,4 @@
-import { Repository } from "typeorm";
+import { createQueryBuilder, Repository } from "typeorm";
 import { Injectable, NotFoundException } from '@nestjs/common';
 
 import { TaskStatus } from './task-status.enum';
@@ -14,29 +14,30 @@ export class TasksService {
       @InjectRepository(Task)
         private taskRepository: Repository<Task>
     ){}
-//   private tasks: Task[] = [];
 
-//   getAllTasks(): Task[] {
-//     return this.tasks;
-//   }
+/**
+ * getTask - get all tasks or parts of tasks is search criterial is provided
+ * @filterDto: The representation of the filters provided
+ * 
+ * Return: The array of tasks
+ */
+async getTask(filterDto: GetTaskFilterDto): Promise<Task[]>{
+  const { status, search} = filterDto
+  const query = this.taskRepository.createQueryBuilder("task")
 
-//   //Return task with some query parameter
-//   getTaskWithFilters(filterDto: GetTaskFilterDto): Task[] {
-//     const { status, search } = filterDto;
-//     const tasks = this.getAllTasks();
-//     if (status) {
-//       tasks.filter((task) => {
-//         task.status = status;
-//       });
-//     }
+  if(status){
+    query.andWhere("task.status = :status", { status })
+  }
 
-//     if (search) {
-//       tasks.filter((task) => {
-//         task.title.includes(search) || task.description.includes(search);
-//       });
-//     }
-//     return tasks;
-//   }
+  if(search){
+    //Using LIKE and OR allows for a partial match of task.title and task.description to `%${search}%`
+    query.andWhere("(task.title LIKE :search OR task.description LIKE :search)", { search: `%${search}%` })
+  }
+
+  const tasks = await query.getMany()
+  return tasks
+}
+
 /**
  * getTaskById - gets the task with a particular id
  * @id - the id of this task
@@ -72,11 +73,19 @@ export class TasksService {
         return task;
   }
 
-//   updateTaskStatus(id: string, status: TaskStatus): Task {
-//     const task = this.getTaskById(id);
-//     task.status = status;
-//     return task;
-//   }
+/**
+ * updateTaskStatus - Udate the task status
+ * @id is the id of the task to update
+ * @status is the status of task
+ * 
+ * Return: The task with updated status
+ */
+  async updateTaskStatus(id: number, status: TaskStatus): Promise<Task> {
+    const task = await this.getTaskById(id);
+    task.status = status;
+    await task.save()
+    return task;
+  }
 
 /**
  * deleteTask - delete a task with the specified id
