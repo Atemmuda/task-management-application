@@ -24,7 +24,7 @@
     "@nestjs/common": "^8.0.0",
     "@nestjs/core": "^8.0.0",
     "@nestjs/jwt": "^8.0.1",
-    "@nestjs/passport": "^8.2.1",
+    "@nestjs/passport": "^8.2.2",
     "@nestjs/platform-express": "^8.0.0",
     "@nestjs/typeorm": "^8.1.4",
     "bcrypt": "^5.0.1",
@@ -32,11 +32,12 @@
     "class-validator": "^0.13.2",
     "config": "^3.3.7",
     "passport": "^0.5.3",
-    "passport-jwt": "^4.0.0",
+    "passport-jwt": "^4.0.1",
     "pg": "^8.8.0",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "^7.2.0",
+    "salt": "^0.5.5",
     "typeorm": "^0.3.11"
   },
   "devDependencies": {
