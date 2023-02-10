@@ -2,15 +2,19 @@ import { ConflictException, Injectable, InternalServerErrorException, Unauthoriz
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import * as  bcrypt from 'bcrypt';
+import { JwtService } from '@nestjs/jwt';
 
 import { AuthCredentialDto } from './dto/auth-credentials.dto';
 import { User } from './user.entity';
+import { JwtPayload } from './jwt-payload.interface';
+
 
 @Injectable()
 export class AuthService {
     constructor(
         @InjectRepository(User)
-        private userRepository: Repository<User>
+        private userRepository: Repository<User>,
+        private jwtService: JwtService
     ){}
 
      /**
@@ -80,5 +84,8 @@ export class AuthService {
         if(!username){
             throw new UnauthorizedException("Invalid credentials")
         }
+        const payload:JwtPayload = { username }
+        const accessToken = this.jwtService.sign(payload)
+        return { accessToken }
     }
 }

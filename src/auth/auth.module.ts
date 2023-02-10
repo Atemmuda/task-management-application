@@ -9,8 +9,15 @@ import { User } from './user.entity';
 
 @Module({
   imports: [
-    JwtModule,
-    PassportModule,
+    JwtModule.register({
+      secret: "bfour4",
+      signOptions: {
+        expiresIn: 3600
+      }
+    }),
+    PassportModule.register({
+      defaultStrategy: "jwt"
+    }),
     TypeOrmModule.forFeature([User])
   ],
   providers: [AuthService],
