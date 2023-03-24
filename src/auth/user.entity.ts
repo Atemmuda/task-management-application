@@ -1,5 +1,7 @@
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn, Unique } from "typeorm";
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { BaseEntity, Column, Entity, OneToMany, PrimaryGeneratedColumn, Unique } from "typeorm";
 import * as  bcrypt from 'bcrypt';
+import { Task } from "src/tasks/task.entity";
 
 @Entity()
 @Unique(['username'])
@@ -14,7 +16,10 @@ export class User extends BaseEntity{
     password:string;
 
     @Column()
-    salt: string
+    salt: string;
+
+    @OneToMany(type => Task, task => task.user, {eager: true})
+    tasks: Task[]
 
     /**
      * validatePassword - Validate signin password against signup password

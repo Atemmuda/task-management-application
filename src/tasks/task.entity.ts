@@ -1,4 +1,5 @@
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { User } from "src/auth/user.entity";
+import { BaseEntity, Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { TaskStatus } from "./task-status.enum"
 
 // Entity or table for the columns that represents the database 
@@ -16,4 +17,8 @@ export class Task extends BaseEntity{
 
     @Column()
     status: TaskStatus;
+    
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    @ManyToOne(type => User, user => user.tasks, {eager: false})
+    user: User;
 }
